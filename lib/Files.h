@@ -8,7 +8,7 @@ typedef enum{
     ERROR_OK,
     FILENAME_ERROR,
     FILE_NOT_FOUND, //3
-    EOF
+    FEOF
 }ERROR_CODE;
 
 
@@ -18,7 +18,7 @@ FILE* closeFile(FILE *file);
 
 ERROR_CODE printHeaders(FILE* file, const int columns, char *data[]);
 
-ERROR_CODE csvFileWrite(FILE* file, const int columns,const int rows, long long data[][columns]);
+ERROR_CODE csvFileWrite(FILE* file, const int columns, const int rows, long long data[][columns], double tiempoRecursive[], double tiempoSequential[]);
 
 
 

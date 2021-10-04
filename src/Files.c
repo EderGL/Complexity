@@ -5,14 +5,14 @@
 
 #define EXISTS "r"
 
-static ERROR_CODE readLine(FILE *file, long long *buffer, size_t bufsize){
+static ERROR_CODE readLine(FILE *file, char *buffer, size_t bufsize){
     fgets(buffer, bufsize,file);
-    if(fgets(buffer, bufsize,file))return EOF;
-    return SUCCESS;
+    if(fgets(buffer, bufsize,file))return FEOF;
+    return EXIT_SUCCESS;
 }
 
-static ERROR_CODE readCSVLineFILE *file, long long *buffer, size_t bufsize){
-    if(fscanf())
+static ERROR_CODE readCSVLine(FILE *file, long long *buffer, size_t bufsize){
+
 }
 
 static long long tokeniseLine(long long *buffer, size_t bufsize, char *tok ){
@@ -31,9 +31,9 @@ static ERROR_CODE fileFound(FILE *file){
 
 
 FILE* newFile(char* fileName, char *mode){
-    
+
     FILE* myFile = NULL;
-    
+
     myFile = fopen(fileName, mode);
     fprintf(stderr, "%p\n",myFile);
     if(fileFound(myFile)==FILE_NOT_FOUND){
@@ -50,15 +50,17 @@ FILE* closeFile(FILE *file){
 }
 
 
-ERROR_CODE csvFileWrite(FILE* file, const int columns, const int rows, long long data[][columns]){
-    int columnIndex = 0;
-    for(int rowIndex=0; rowIndex<rows; rowIndex++){
-        for(columnIndex=0; columnIndex<(columns-1); columnIndex++){
-            fprintf(file, "%lld, ", data[rowIndex][columnIndex]);
-        }
-        fprintf(file, "%lld\n", data[rowIndex][columnIndex]);
-    }
-    return ERROR_OK;
+ERROR_CODE csvFileWrite(FILE* file, const int columns, const int rows, long long data[][columns], double tiempoRecursive[], double tiempoSequential[]){
+  int columnIndex = 0;
+  for(int rowIndex=0; rowIndex<rows; rowIndex++){
+    fprintf(file,"%f, ",tiempoRecursive[rowIndex]);
+    fprintf(file,"%f, ",tiempoSequential[rowIndex]);
+      for(columnIndex=0; columnIndex<(columns-1); columnIndex++){
+          fprintf(file, "%lld, ", data[rowIndex][columnIndex]);
+      }
+      fprintf(file, "%lld\n", data[rowIndex][columnIndex]);
+  }
+  return ERROR_OK;
 }
 
 ERROR_CODE printHeaders(FILE* file, const int columns, char *data[]){
